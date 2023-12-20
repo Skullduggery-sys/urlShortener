@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"urlShortener/internal/config"
 	"urlShortener/internal/gRPC/gRPCServer"
 	"urlShortener/internal/http/httpServer"
@@ -81,10 +84,21 @@ func main() {
 	srv := httpServer.New(ctx, cfg.HTTPServer, router, appLogger)
 	appLogger.Debug(cfg.HTTPServer)
 	appLogger.Info("starting HTTPServer")
-	srv.Run()
-	if err != nil {
-		appLogger.Errorf("can't start HTTPServer: %v", err.Error())
+
+	wg.Add(1)
+	go srv.Run()
+
+	signalCh := make(chan os.Signal, 1)
+	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
+
+	select {
+	case <-signalCh:
+		appLogger.Info("Received interrupt signal, shutting down")
 	}
-	wg.Wait()
+
 	final()
+	wg.Wait()
+
+	appLogger.Info("Server stopped gracefully")
 }
+
