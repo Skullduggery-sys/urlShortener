@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package service;
+
+message FullURL {
+  string URL = 1;
+}
+
+message ShortURL {
+  string URL = 1;
+}
+
+service URLShortener {
+  rpc Save(FullURL) returns (ShortURL) {}
+  rpc Redirect(ShortURL) returns (FullURL) {}
+}

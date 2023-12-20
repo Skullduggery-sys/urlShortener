@@ -1,0 +1,13 @@
+postgres:
+  login: "postgres"
+  password: "postgres"
+  host: "db"
+  port: "5430"
+  dbname: "url-shortener"
+  sslMode: "disable"
+httpServer:
+  address: ":3000"
+  timeout: 4s
+  idleTimeout: 60s
+grpcAddr: "0.0.0.0:3030"
+
