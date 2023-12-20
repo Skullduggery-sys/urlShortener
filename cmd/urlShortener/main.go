@@ -86,7 +86,10 @@ func main() {
 	appLogger.Info("starting HTTPServer")
 
 	wg.Add(1)
-	go srv.Run()
+	go func(){
+		srv.Run()
+		wg.Done()
+	}()
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, os.Interrupt, syscall.SIGTERM)
@@ -101,4 +104,3 @@ func main() {
 
 	appLogger.Info("Server stopped gracefully")
 }
-
