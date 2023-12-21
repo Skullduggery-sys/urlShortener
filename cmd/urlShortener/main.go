@@ -51,6 +51,9 @@ func main() {
 			appLogger.Fatalf("can't init storage: %v", err)
 		}
 		maxID, err := pq.MaxID()
+		if maxID != 0 {
+			maxID++
+		}
 		if err != nil {
 			appLogger.Fatalf("can't get maxID: %v", err)
 		}
@@ -86,7 +89,7 @@ func main() {
 	appLogger.Info("starting HTTPServer")
 
 	wg.Add(1)
-	go func(){
+	go func() {
 		srv.Run()
 		wg.Done()
 	}()
