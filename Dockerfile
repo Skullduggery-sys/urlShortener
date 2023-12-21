@@ -20,6 +20,10 @@ COPY --from=builder /usr/local/src/bin/app /
 COPY --from=builder /usr/local/src/wait-for-postgres.sh /
 COPY /config/local.yaml /local.yaml
 
+# Для Windows
+RUN apk add dos2unix
+RUN dos2unix wait-for-postgres.sh
+
 RUN chmod +x /wait-for-postgres.sh
 RUN apk --no-cache add postgresql-client
 
