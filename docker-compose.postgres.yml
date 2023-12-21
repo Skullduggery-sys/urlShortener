@@ -1,4 +1,5 @@
 version: '3.0'
+
 services:
   app:
     depends_on:
@@ -7,17 +8,17 @@ services:
       context: .
     command: /app --storage=postgres
     ports:
-      - 3005:3000
-      - 3030:3030
+      - "3005:3000"
+      - "3030:3030"
   db:
     restart: always
     image: postgres:latest
     environment:
-      POSTGRES_DB: url-shortener
+      POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data/url-shortener
     volumes:
       - ./data/postgres:/var/lib/postgresql/data/url-shortener
     ports:
-     - 5430:5432
+      - "5400:5432"

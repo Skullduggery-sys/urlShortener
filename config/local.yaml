@@ -3,7 +3,7 @@ postgres:
   password: "postgres"
   host: "db"
   port: "5432"
-  dbname: "url-shortener"
+  dbname: "postgres"
   sslMode: "disable"
 httpServer:
   address: ":3000"
