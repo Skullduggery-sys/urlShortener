@@ -40,12 +40,6 @@ func (g *GRPCServer) Run(ctx context.Context, addr string, service Service) erro
 	if err != nil {
 		return e.WrapError(fn, err)
 	}
-	defer func() {
-		err := lis.Close()
-		if err != nil {
-			g.logger.Errorf("error while closing lis: %v", err)
-		}
-	}()
 
 	go func() {
 		err := g.Serve(lis)
